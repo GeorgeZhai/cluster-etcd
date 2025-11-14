@@ -69,7 +69,7 @@ apply from: 'gradle/formatting.gradle'
 opensearchplugin {
   description = 'Plugin for polling cluster state from etcd'
   classname = 'org.opensearch.cluster.etcd.ClusterETCDPlugin'
-  licenseFile rootProject.file('LICENSE.txt')
+  licenseFile rootProject.file('LICENSE')
   noticeFile rootProject.file('NOTICE.txt')
 }
 
