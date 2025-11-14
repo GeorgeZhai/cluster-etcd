@@ -38,13 +38,9 @@ buildscript {
     }
 }
 
-// Workaround for BuildParams compatibility issue
-gradle.ext.isInternal = false
-
 plugins {
     id 'com.avast.gradle.docker-compose' version '0.17.19' // Or latest version
 }
-
 
 allprojects {
     version = opensearch_version.tokenize('-')[0] + '.0'
@@ -61,6 +57,16 @@ repositories {
     maven { url "https://ci.opensearch.org/ci/dbc/snapshots/maven/" }
     mavenCentral()
     maven { url "https://plugins.gradle.org/m2/" }
+}
+
+// Patch BuildParams to add missing 'internal' property for backward compatibility
+try {
+    def buildParamsClass = Class.forName('org.opensearch.gradle.info.BuildParams')
+    buildParamsClass.metaClass.static.getInternal = { -> 
+        return buildParamsClass.isInternal 
+    }
+} catch (Exception e) {
+    logger.quiet("Note: Could not patch BuildParams.internal property: ${e.message}")
 }
 
 apply plugin: 'opensearch.opensearchplugin'
