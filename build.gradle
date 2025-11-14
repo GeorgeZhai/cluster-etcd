@@ -38,6 +38,9 @@ buildscript {
     }
 }
 
+// Workaround for BuildParams compatibility issue
+gradle.ext.isInternal = false
+
 plugins {
     id 'com.avast.gradle.docker-compose' version '0.17.19' // Or latest version
 }
