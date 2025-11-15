@@ -32,6 +32,23 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
+    
+    configurations.classpath {
+        resolutionStrategy {
+            // Force all Groovy dependencies to use the same version for Gradle 9 compatibility
+            force 'org.apache.groovy:groovy:4.0.28'
+            force 'org.apache.groovy:groovy-ant:4.0.28'
+            
+            // Handle the capability conflict between org.codehaus.groovy and org.apache.groovy
+            eachDependency { details ->
+                if (details.requested.group == 'org.codehaus.groovy') {
+                    details.useTarget "org.apache.groovy:${details.requested.name}:4.0.28"
+                    details.because "Gradle 9 requires Apache Groovy instead of Codehaus Groovy"
+                }
+            }
+        }
+    }
+    
     dependencies {
         classpath "${opensearch_group}.gradle:build-tools:${opensearch_version}"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:8.0.0"
