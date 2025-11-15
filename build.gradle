@@ -38,6 +38,7 @@ buildscript {
             // Force all Groovy dependencies to use the same version for Gradle 9 compatibility
             force 'org.apache.groovy:groovy:4.0.28'
             force 'org.apache.groovy:groovy-ant:4.0.28'
+            force 'org.apache.groovy:groovy-xml:4.0.28'
             
             // Handle the capability conflict between org.codehaus.groovy and org.apache.groovy
             eachDependency { details ->
@@ -53,7 +54,9 @@ buildscript {
         classpath "${opensearch_group}.gradle:build-tools:${opensearch_version}"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:8.0.0"
         // Required for Gradle 9.x compatibility - provides groovy.util.AntBuilder
+        classpath "org.apache.groovy:groovy:4.0.28"
         classpath "org.apache.groovy:groovy-ant:4.0.28"
+        classpath "org.apache.groovy:groovy-xml:4.0.28"
     }
 }
 
